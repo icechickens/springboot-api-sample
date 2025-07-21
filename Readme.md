@@ -7,3 +7,8 @@ my-api-img            latest    7923960f0b55   34 seconds ago   1.18GB
 $ dcnt run -p 8080:8080 --rm my-api-img
 ```
 
+## Docker Composeから実行
+```
+$ dc up
+```
+
