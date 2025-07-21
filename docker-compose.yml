@@ -3,3 +3,23 @@ services:
     build: .
     ports:
       - 8080:8080
+
+  db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appdb
+    
+    # DBのデータをボリュームに保存
+    volumes:
+      - db-storage:/var/lib/postgresql/data
+      - ./db/initdb:/docker-entrypoint-initdb.d
+
+# ボリュームの作成
+volumes:
+  db-storage:
+
+# Dockerネットワークはdocker-composeが自動で作成するものを使用
