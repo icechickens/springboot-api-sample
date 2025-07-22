@@ -1,12 +1,22 @@
+# 参考
+https://github.com/kentny/docker-simple-cicd-demo
+
 # 構成
 - Dockerホスト(Dockerデーモン)
   - 公開ポート
+    - 3000 → 3000
     - 8080 → 8080
   - Custom Bridge
+    - WEBコンテナ(3000)
+      - React
+    - ↓
     - APIコンテナ(8080)
+      - Spring Boot
     - ↓
     - DBコンテナ(5432)
-      - Volume 
+      - PostgreSQL
+    - ↓
+    - Volume(db-storage)
 - ローカルホスト
   - http://{Dockerホスト}:8080/api/hello?lang=ja
 
@@ -35,6 +45,8 @@ dcnt run --rm \
     -p 8080:8080 \
     --network api_default
     my-api-img
+
+# WEB起動
 
 ```
 

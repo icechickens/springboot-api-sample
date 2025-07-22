@@ -1,6 +1,6 @@
 FROM gradle:7
 
-# ビルドコンテキストを/apiに設定
+# ビルドコンテキストをコンテナ上の/apiに配置
 WORKDIR /api
 COPY . .
 

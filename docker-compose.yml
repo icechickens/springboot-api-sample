@@ -1,6 +1,9 @@
 services:
   api:
-    build: .
+    # ビルドコンテキスト
+    container_name: api
+    build: 
+      context: ./api
     ports:
       - 8080:8080
     
