@@ -1,7 +1,21 @@
 services:
-  api:
+  web:
+    container_name: web
+
     # ビルドコンテキスト
+    build: 
+      context: ./web
+    ports:
+      - 3000:3000
+    environment:
+      - REACT_APP_API_SERVER=http://localhost:8080/api
+    depends_on:
+      - api
+
+  api:
     container_name: api
+
+    # ビルドコンテキスト
     build: 
       context: ./api
     ports:
