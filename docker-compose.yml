@@ -9,6 +9,14 @@ services:
       - 3000:3000
     environment:
       - REACT_APP_API_SERVER=http://localhost:8080/api
+    
+    # dev containerが使えないのは、ttyがないため？
+    # コンテナ起動してもbashがすぐに終了してしまうためか？
+    tty: true
+
+    # ワークスペースのマウント
+    volumes:
+      - ./web:/workspace:cached
     depends_on:
       - api
 
@@ -20,12 +28,17 @@ services:
       context: ./api
     ports:
       - 8080:8080
+
+    # ワークスペースのマウント
+    volumes:
+      - ./api:/workspace:cached
     
     # 先にDBを起動してからAPIを起動する
     depends_on:
       - db
 
   db:
+    container_name: db
     image: postgres:15
     ports:
       - 5432:5432
