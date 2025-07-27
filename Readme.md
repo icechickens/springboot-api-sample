@@ -21,32 +21,39 @@ https://github.com/kentny/docker-simple-cicd-demo
   - http://{Dockerホスト}:8080/api/hello?lang=ja
 
 # Dockerで実行
-## 全体
+## 全体(本番時)
 ```
-d volume create api_db-storage
-d network create api_default
-dimg build -t my-api-img .
+# リソース作成
+d volume create hello-web-prd-storage
+d network create hello-web-prd-network
+
+# APIイメージビルド
+dimg build --target prd -t hello-web-prd-api-img:latest api/
+
+# WEBイメージビルド
+dimg build --target prd -t hello-web-prd-web-img:latest web/
 
 # DB起動
-dcnt run --rm \
-    --name my-db \
-    -p 5432:5432 \
-    -e POSTGRES_PASSWORD=password \
-    -e POSTGRES_USER=postgres \
-    -e POSTGRES_DB=appdb \
-    -v api_db-storage:/var/lib/postgresql/data \
-    -v ./db/initdb:/docker-entrypoint-initdb.d \
-    --network api_default \
-    postgres:15
+dcnt run -d --rm \
+  --name hello-web-db \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_DB=appdb \
+  -v hello-web-prd-storage:/var/lib/postgresql/data \
+  -v ./db/initdb:/docker-entrypoint-initdb.d \
+  --network hello-web-prd-network \
+  postgres:15
 
 # API起動
-dcnt run --rm \
-    --name my-api \
-    -p 8080:8080 \
-    --network api_default
-    my-api-img
+dcnt run -d --rm \
+  --name hello-web-api \
+  -p 8080:8080 \
+  --network hello-web-prd-network \
+  hello-web-prd-api-img:latest
 
 # WEB起動
+
 
 ```
 
@@ -58,7 +65,7 @@ my-api-img            latest    7923960f0b55   34 seconds ago   1.18GB
 $ dcnt run -p 8080:8080 --rm my-api-img
 ```
 
-# Docker Composeで実行
+# Docker Composeで実行(開発時)
 ## 全体実行
 ### ソース修正なし(前回作成イメージを使用)
 ```

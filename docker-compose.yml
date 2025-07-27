@@ -1,10 +1,11 @@
 services:
   web:
-    container_name: web
+    container_name: hello-web-web
 
     # ビルドコンテキスト
     build: 
       context: ./web
+      target: build
     ports:
       - 3000:3000
     environment:
@@ -21,11 +22,12 @@ services:
       - api
 
   api:
-    container_name: api
+    container_name: hello-web-api
 
     # ビルドコンテキスト
     build: 
       context: ./api
+      target: base
     ports:
       - 8080:8080
 
@@ -38,7 +40,7 @@ services:
       - db
 
   db:
-    container_name: db
+    container_name: hello-web-db
     image: postgres:15
     ports:
       - 5432:5432
@@ -53,7 +55,9 @@ services:
       - ./db/initdb:/docker-entrypoint-initdb.d
 
 # ボリュームの作成
+# ボリューム名は「web-api-db-sample_db-storage」となる
 volumes:
   db-storage:
 
 # Dockerネットワークはdocker-composeが自動で作成するものを使用
+# ネットワーク名は「web-api-db-sample_default」になる
