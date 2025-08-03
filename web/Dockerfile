@@ -18,5 +18,5 @@ CMD [ "npm", "run", "start" ]
 # マルチステージビルド
 # 本番用のイメージを作成
 FROM nginx:latest AS prd
-COPY --from=build /workspace/build /var/www
+COPY --from=test-and-build /workspace/build /var/www
 COPY nginx.conf /etc/nginx/conf.d/default.conf
