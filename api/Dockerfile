@@ -13,6 +13,7 @@ CMD ["./gradlew", "bootRun"]
 FROM base AS test-and-build
 WORKDIR /workspace
 COPY . .
+RUN chmod +x ./gradlew
 RUN ./gradlew build
 
 # マルチステージビルド(本番リリース用)
