@@ -9,13 +9,13 @@ WORKDIR /workspace
 # 本コマンドはdocker-compose.ymlのvolumes後に実行される
 CMD ["./gradlew", "bootRun"]
 
-# マルチステージビルド(ビルド用)
-FROM base AS build
+# マルチステージビルド(テスト・ビルド用)
+FROM base AS test-and-build
 WORKDIR /workspace
 COPY . .
 RUN ./gradlew build
 
 # マルチステージビルド(本番リリース用)
 FROM eclipse-temurin:17.0.15_6-jre-noble AS prd
-COPY --from=build /workspace/build/libs/*.jar ./api.jar
+COPY --from=test-and-build /workspace/build/libs/*.jar ./api.jar
 CMD ["java", "-jar", "api.jar"]
