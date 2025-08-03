@@ -98,6 +98,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
   # Deploy
+  # 現状DBが存在しないため、API起動に失敗する
   deploy:
     name: Deploy
     runs-on: ubuntu-24.04
