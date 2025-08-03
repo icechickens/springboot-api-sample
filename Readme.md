@@ -51,6 +51,9 @@ dcnt run -d --rm \
 dcnt run -d --rm \
   --name hello-web-api \
   -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://hello-web-db:5432/appdb \
+  -e SPRING_DATASOURCE_USERNAME=postgres \
+  -e SPRING_DATASOURCE_PASSWORD=password \
   --network hello-web-prd-network \
   hello-web-prd-api-img:latest
 

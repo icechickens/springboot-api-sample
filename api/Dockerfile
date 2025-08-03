@@ -13,8 +13,7 @@ CMD ["./gradlew", "bootRun"]
 FROM base AS test-and-build
 WORKDIR /workspace
 COPY . .
-RUN chmod +x ./gradlew
-RUN ./gradlew build
+RUN chmod +x ./gradlew && ./gradlew build
 
 # マルチステージビルド(本番リリース用)
 FROM eclipse-temurin:17.0.15_6-jre-noble AS prd
