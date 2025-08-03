@@ -31,7 +31,9 @@ d network create hello-web-prd-network
 dimg build --target prd -t hello-web-prd-api-img:latest api/
 
 # WEBイメージビルド
-dimg build --target prd -t hello-web-prd-web-img:latest web/
+dimg build --target prd \
+  --build-arg REACT_APP_API_SERVER=http://localhost:8080/api \
+  -t hello-web-prd-web-img:latest web/
 
 # DB起動
 dcnt run -d --rm \
@@ -53,7 +55,11 @@ dcnt run -d --rm \
   hello-web-prd-api-img:latest
 
 # WEB起動
-
+dcnt run -d --rm \
+  --name hello-web-web \
+  -p 80:80 \
+  --network hello-web-prd-network \
+  hello-web-prd-web-img:latest
 
 ```
 

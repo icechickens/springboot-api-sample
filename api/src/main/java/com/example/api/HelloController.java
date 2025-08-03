@@ -19,7 +19,7 @@ public class HelloController {
     @Autowired
     private GreetingRepository repository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost")
     @RequestMapping("/hello")
     public String hello(
             @RequestParam String lang
